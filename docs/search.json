@@ -1,5 +1,89 @@
 [
   {
+    "objectID": "R Codes.html",
+    "href": "R Codes.html",
+    "title": "R Code: New York Times High School Sports",
+    "section": "",
+    "text": "#Entries represent injuries sustained per 10,000 competitions in the named sport\nfootball &lt;- c(34,21,3,5,11,7,18,3,19)\nhockey &lt;- c(18,13,2,2,5,8,3,1,5)\nwrestling &lt;- c(14,7,4,2,2,1,7,1,3)\nlacrosse &lt;- c(11,3,1,2,4,3,9,1,4)\nsoccer &lt;- c(11,1,1,2,2,5,5,2,6)\nbasketball &lt;- c(7,1,1,2,4,2,3,1,13)\n\nmat &lt;- cbind (football, hockey, wrestling, lacrosse, soccer, basketball)\ninjury &lt;- c(\"Head\",\"Shoulder\",\"Arm\",\"Trunk\",\"Hand\",\"Thigh\",\"Knee\",\"Lower Leg\",\"Ankle\")\nsport &lt;- c(\"Football\",\"Hockey\",\"Wrestling\",\"Lacrosse\",\"Soccer\",\"Basketball\")\ncolnames(mat) &lt;- sport\nrownames(mat) &lt;- injury\nmat\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball\nHead            34     18        14       11     11          7\nShoulder        21     13         7        3      1          1\nArm              3      2         4        1      1          1\nTrunk            5      2         2        2      2          2\nHand            11      5         2        4      2          4\nThigh            7      8         1        3      5          2\nKnee            18      3         7        9      5          3\nLower Leg        3      1         1        1      2          1\nAnkle           19      5         3        4      6         13\n\n\n\n\n\n\n#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL\n\n\n\n\n\n#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)\n\n\n\n\n\n#Subset head injuries\nsubset_head &lt;-subset(inj.sport.long, Injuries == \"Head\")\nsubset_head\n\n   Injuries      Sport Number\n1      Head   Football     34\n10     Head     Hockey     18\n19     Head  Wrestling     14\n28     Head   Lacrosse     11\n37     Head     Soccer     11\n46     Head Basketball      7"
+  },
+  {
+    "objectID": "R Codes.html#building-a-matrix",
+    "href": "R Codes.html#building-a-matrix",
+    "title": "R Code: New York Times High School Sports",
+    "section": "",
+    "text": "#Entries represent injuries sustained per 10,000 competitions in the named sport\nfootball &lt;- c(34,21,3,5,11,7,18,3,19)\nhockey &lt;- c(18,13,2,2,5,8,3,1,5)\nwrestling &lt;- c(14,7,4,2,2,1,7,1,3)\nlacrosse &lt;- c(11,3,1,2,4,3,9,1,4)\nsoccer &lt;- c(11,1,1,2,2,5,5,2,6)\nbasketball &lt;- c(7,1,1,2,4,2,3,1,13)\n\nmat &lt;- cbind (football, hockey, wrestling, lacrosse, soccer, basketball)\ninjury &lt;- c(\"Head\",\"Shoulder\",\"Arm\",\"Trunk\",\"Hand\",\"Thigh\",\"Knee\",\"Lower Leg\",\"Ankle\")\nsport &lt;- c(\"Football\",\"Hockey\",\"Wrestling\",\"Lacrosse\",\"Soccer\",\"Basketball\")\ncolnames(mat) &lt;- sport\nrownames(mat) &lt;- injury\nmat\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball\nHead            34     18        14       11     11          7\nShoulder        21     13         7        3      1          1\nArm              3      2         4        1      1          1\nTrunk            5      2         2        2      2          2\nHand            11      5         2        4      2          4\nThigh            7      8         1        3      5          2\nKnee            18      3         7        9      5          3\nLower Leg        3      1         1        1      2          1\nAnkle           19      5         3        4      6         13"
+  },
+  {
+    "objectID": "R Codes.html#building-a-dataframe",
+    "href": "R Codes.html#building-a-dataframe",
+    "title": "R Code: New York Times High School Sports",
+    "section": "",
+    "text": "#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL"
+  },
+  {
+    "objectID": "R Codes.html#gather-data-into-a-long-table",
+    "href": "R Codes.html#gather-data-into-a-long-table",
+    "title": "R Code: New York Times High School Sports",
+    "section": "",
+    "text": "#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)"
+  },
+  {
+    "objectID": "R Codes.html#creating-a-subset-dataframe-for-head-injuries",
+    "href": "R Codes.html#creating-a-subset-dataframe-for-head-injuries",
+    "title": "R Code: New York Times High School Sports",
+    "section": "",
+    "text": "#Subset head injuries\nsubset_head &lt;-subset(inj.sport.long, Injuries == \"Head\")\nsubset_head\n\n   Injuries      Sport Number\n1      Head   Football     34\n10     Head     Hockey     18\n19     Head  Wrestling     14\n28     Head   Lacrosse     11\n37     Head     Soccer     11\n46     Head Basketball      7"
+  },
+  {
+    "objectID": "R Codes.html#stacked-bar",
+    "href": "R Codes.html#stacked-bar",
+    "title": "R Code: New York Times High School Sports",
+    "section": "Stacked Bar",
+    "text": "Stacked Bar\n\nggplot(inj.sport.long, aes(x=Sport, y = Number, fill = Injuries))+geom_col()+\n  labs(y=\"Injuries per 10,000 Competition Plays\", title = \"High School Sports Injuries\", fill = \"Injury Type\")+\n  theme_minimal()"
+  },
+  {
+    "objectID": "R Codes.html#line-plot",
+    "href": "R Codes.html#line-plot",
+    "title": "R Code: New York Times High School Sports",
+    "section": "Line Plot",
+    "text": "Line Plot\n\n##Line Plot\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(y = \"Injuries per 10,000 Competition Plays\",x=\"Type of Injury\",title = \"High School Sports Injuries\", fill= \"Sport\")+\n  theme_minimal()"
+  },
+  {
+    "objectID": "R Codes.html#facet-wrap",
+    "href": "R Codes.html#facet-wrap",
+    "title": "R Code: New York Times High School Sports",
+    "section": "Facet Wrap",
+    "text": "Facet Wrap\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_wrap(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) + \n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))+\n  theme_minimal()"
+  },
+  {
+    "objectID": "R Codes.html#facet-grid",
+    "href": "R Codes.html#facet-grid",
+    "title": "R Code: New York Times High School Sports",
+    "section": "Facet Grid",
+    "text": "Facet Grid\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_grid(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) + \n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))+\n  theme_minimal()"
+  },
+  {
+    "objectID": "R Codes.html#head-injuries",
+    "href": "R Codes.html#head-injuries",
+    "title": "R Code: New York Times High School Sports",
+    "section": "Head Injuries",
+    "text": "Head Injuries\n\nggplot(subset_head,aes(x=Sport, y=Number))+\n  geom_col(aes(fill = Sport))+\n  geom_text(aes(label = Number),vjust = -0.5)+\n  labs(title = \"Head Injuries by Sport\",y = \"Number of Injuries per 10,000 Competition Plays\", x=\"\")+\n  theme_minimal()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Group 3 Mid Project",
+    "section": "",
+    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
+  },
+  {
     "objectID": "NYT_HS_Sports_Injuries.html",
     "href": "NYT_HS_Sports_Injuries.html",
     "title": "New York Times: High School Sports Injuries",
@@ -33,19 +117,5 @@
     "title": "New York Times: High School Sports Injuries",
     "section": "",
     "text": "The statistic that is most troubling to researchers and parents alike is the significant number of head injuries sustained by high school boys playing football. Head injuries are particularly dangerous for developing brains and, increasingly, head injuries have been linked to mental illness in teenage boys."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Group 3 Mid Project",
-    "section": "",
-    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
   }
 ]
