@@ -1,10 +1,157 @@
 [
   {
+    "objectID": "R_code_Employment_Post.html",
+    "href": "R_code_Employment_Post.html",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "",
+    "text": "#importing libraries:\nlibrary(lattice)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#building-the-data-frame",
+    "href": "R_code_Employment_Post.html#building-the-data-frame",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "",
+    "text": "#importing libraries:\nlibrary(lattice)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#loading-the-data-and-building-the-first-matrix",
+    "href": "R_code_Employment_Post.html#loading-the-data-and-building-the-first-matrix",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Loading the data and building the first matrix:",
+    "text": "Loading the data and building the first matrix:\n\n#three categories of employment:\n\ntotal_empl= c (612, 157, 77 ,45, 18)\nsalaried= c( 505, 62, 59, 33, 14)\nhourly= c(107, 95, 18, 12,4)\n\nempl_mat = cbind(total_empl, salaried, hourly)\nempl_mat\n\n     total_empl salaried hourly\n[1,]        612      505    107\n[2,]        157       62     95\n[3,]         77       59     18\n[4,]         45       33     12\n[5,]         18       14      4\n\nrownames(empl_mat) = c( \"White\", \n                              \"Black\", \"Asian\", \"Hispanic or Latino\", \n                              \"Two or More Races\")\n\nempl_mat\n\n                   total_empl salaried hourly\nWhite                     612      505    107\nBlack                     157       62     95\nAsian                      77       59     18\nHispanic or Latino         45       33     12\nTwo or More Races          18       14      4"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#building-the-data-frame-1",
+    "href": "R_code_Employment_Post.html#building-the-data-frame-1",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Building the data frame:",
+    "text": "Building the data frame:\n\nempl_df &lt;- as.data.frame(empl_mat) %&gt;%\n  rownames_to_column(var = \"Category\") %&gt;%\n  pivot_longer(cols = total_empl:hourly, \n               names_to = \"Employment_Type\", \n               values_to = \"Count\")"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#plotting-the-number-of-employees-based-on-their-race",
+    "href": "R_code_Employment_Post.html#plotting-the-number-of-employees-based-on-their-race",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Plotting the number of employees based on their race:",
+    "text": "Plotting the number of employees based on their race:\n\nggplot(empl_df, aes(x = Category, y = Count, group = Employment_Type, color = Employment_Type)) +\n  geom_line(linewidth = 1) +\n  geom_point(size = 3) +\n  theme_minimal() +\n  labs(title = \"Employment by Type Across Different Races\",\n       x = \"Race\",\n       y = \"Number of Employees\",\n       color = \"Employment Type\") +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1))"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#add-gender-data",
+    "href": "R_code_Employment_Post.html#add-gender-data",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Add Gender Data",
+    "text": "Add Gender Data\nTo examine the difference of employment rate using gender, we must update the data frame to include the number of female and male employees.\n\nemply2_df &lt;- data.frame(\n  Race = c(\"White\", \"Black\", \"Asian\", \"Hispanic or Latino\", \"Two or More Races\"),\n  Female = c(612, 157, 77, 45, 18),\n  Male = c(950 - 612, 950 - 157, 950 - 77, 950 - 45, 950 - 18)\n)"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#reshaping-the-data",
+    "href": "R_code_Employment_Post.html#reshaping-the-data",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Reshaping the data:",
+    "text": "Reshaping the data:\n\nemply2_df_long &lt;- emply2_df %&gt;%\n  pivot_longer(cols = Female:Male, names_to = \"Gender\", values_to = \"Count\")\n\n\n# Calculating percentages within each race\n\n\nemply2_df_long &lt;- emply2_df_long %&gt;%\n  group_by(Race) %&gt;%\n  mutate(Percentage = Count / sum(Count) * 100)"
+  },
+  {
+    "objectID": "R_code_Employment_Post.html#creating-a-stacked-bar-graph-with-percentages-of-female-and-male-employees",
+    "href": "R_code_Employment_Post.html#creating-a-stacked-bar-graph-with-percentages-of-female-and-male-employees",
+    "title": "R Code: The Washington Post Employment Examination",
+    "section": "Creating a stacked bar graph with percentages of female and male employees",
+    "text": "Creating a stacked bar graph with percentages of female and male employees\n\nggplot(emply2_df_long, aes(x = Race, y = Count, fill = Gender)) +\n  geom_bar(stat = \"identity\") +\n  geom_text(aes(label = paste0(round(Percentage, 1), \"%\")),\n            position = position_stack(vjust = 0.5)) +  # Positioning labels inside bars\n  theme_minimal() +\n  labs(title = \"Number of Employees by Race and Gender\",\n       x = \"Race\",\n       y = \"Number of Employees\",\n       fill = \"Gender\") +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1))"
+  },
+  {
+    "objectID": "Pay_gap.html",
+    "href": "Pay_gap.html",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "In 2019, The Washington Post performed a study on the pay gap of employees at the post and addressed that their study shows that a pay gap does indeed exist across different genders and races. You can read more about the article here .\nSome visualizations made by the Washington Post included making a bar graph that represents the number of the employees based on their race. the study explored races, White, Black, Asian, Hispanic or Latino, Two or more races as shown in figure 1 below.\n\n\n\nFigure 1: Employment Visualization Based on Race\n\n\nNonetheless, this visualization could be improved by showcasing the correlation between the gender an race and how they affect the pay of the respective employees.\n\n\n\nTo improve this visualization, we first examined the employment of employees based on their race using a line graph. This comparison showed us that there is indeed a difference in employment rates based on the race of the employees. We can see that the highest increase in number of employees was the number of white employees., thereby suggesting a preference in hiring salaried white employees when compared to other races such as Hispanic or Latino employees. On the other hand, the different categories of employment presented highlighted black employees have the highest hourly employment rate when compared to employees with other races as shown in Figure 2.\n\n\n\n\n\nFigure 2: Visualization of Employment Type Across Different Races\n\n\n\n\n\n\n\nNext, we compared the number of employees hired by the Washington Post based on their race and gender. First, we calculated the percentages of male and female employees in each race. Then, we utilized a stacked bar graph to represent the difference in employment rates based on both factors, gender and race. We can see that gender has a big impact on employment rates as shown in Figure 3. Furthermore, male employees are show to be in favor when compared to the females hired as the study showed that 98.1% of males with two or more races were shown to be male employees, followed by the Asian, Hispanic or Latino, and Black categories closely. On the other hand, it was clear to see that there is a higher percentage of White female women employees when compared to the White male employees hired by the post. Therefore, there is a huge difference in employment rates based on the gender and race.\n\n\n\n\n\nFigure 3: Visualization of Employment Rate Based on Gender\n\n\n\n\n\n\n\nIn this project, we explored how to enhance visualizations by choosing which variables to work with. For instance, we created a line graph instead of the bar graph provided by the original study to examine the difference in employment rates by the Washington Post. The line graph in this case is a better choice of visualization as it showcases the different categories of employment (hourly and salaried) and clarifies the comparison between the total number of employees across different races. Moreover, a stacked bar was a good visualization choice to examine the difference in employment rates as it showcases the different numbers of employees within each race of employees in the Post Office."
+  },
+  {
+    "objectID": "Pay_gap.html#introduction",
+    "href": "Pay_gap.html#introduction",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "In 2019, The Washington Post performed a study on the pay gap of employees at the post and addressed that their study shows that a pay gap does indeed exist across different genders and races. You can read more about the article here .\nSome visualizations made by the Washington Post included making a bar graph that represents the number of the employees based on their race. the study explored races, White, Black, Asian, Hispanic or Latino, Two or more races as shown in figure 1 below.\n\n\n\nFigure 1: Employment Visualization Based on Race\n\n\nNonetheless, this visualization could be improved by showcasing the correlation between the gender an race and how they affect the pay of the respective employees."
+  },
+  {
+    "objectID": "Pay_gap.html#employment-type-by-race",
+    "href": "Pay_gap.html#employment-type-by-race",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "To improve this visualization, we first examined the employment of employees based on their race using a line graph. This comparison showed us that there is indeed a difference in employment rates based on the race of the employees. We can see that the highest increase in number of employees was the number of white employees., thereby suggesting a preference in hiring salaried white employees when compared to other races such as Hispanic or Latino employees. On the other hand, the different categories of employment presented highlighted black employees have the highest hourly employment rate when compared to employees with other races as shown in Figure 2.\n\n\n\n\n\nFigure 2: Visualization of Employment Type Across Different Races"
+  },
+  {
+    "objectID": "Pay_gap.html#employment-by-race-and-gender",
+    "href": "Pay_gap.html#employment-by-race-and-gender",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "Next, we compared the number of employees hired by the Washington Post based on their race and gender. First, we calculated the percentages of male and female employees in each race. Then, we utilized a stacked bar graph to represent the difference in employment rates based on both factors, gender and race. We can see that gender has a big impact on employment rates as shown in Figure 3. Furthermore, male employees are show to be in favor when compared to the females hired as the study showed that 98.1% of males with two or more races were shown to be male employees, followed by the Asian, Hispanic or Latino, and Black categories closely. On the other hand, it was clear to see that there is a higher percentage of White female women employees when compared to the White male employees hired by the post. Therefore, there is a huge difference in employment rates based on the gender and race.\n\n\n\n\n\nFigure 3: Visualization of Employment Rate Based on Gender"
+  },
+  {
+    "objectID": "Pay_gap.html#conclusion",
+    "href": "Pay_gap.html#conclusion",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "In this project, we explored how to enhance visualizations by choosing which variables to work with. For instance, we created a line graph instead of the bar graph provided by the original study to examine the difference in employment rates by the Washington Post. The line graph in this case is a better choice of visualization as it showcases the different categories of employment (hourly and salaried) and clarifies the comparison between the total number of employees across different races. Moreover, a stacked bar was a good visualization choice to examine the difference in employment rates as it showcases the different numbers of employees within each race of employees in the Post Office."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Group 3 Mid Project",
+    "section": "",
+    "text": "STAT 515 Section 001\nGroup 3\n\n\n\n\n\n\n\n\n\nCory Trainor\n\n\n\n\n\n\n\nLana Hashem"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html",
+    "href": "NYT_HS_Sports_Injuries.html",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "In 2019 the New York Times published an article titled “Inside Football’s Campaign to Save the Game.” The article examined the sport’s culture and focused on the growing number of injuries among young players and the long term effects of these injuries. You can read the full article here.\nPictured below is one of the figures used to compare the number of injuries sustained by high school boys in six popular sports: football, hockey, wrestling, lacrosse, soccer, and basketball. (Belson, Bui, Drape, Taylor, & Ward, 2019)\n\n\n\n\n\n\n\nFigure 1\n\n\nThe figure offers an interesting comparison of the relative number of injuries, but without reading the numbers it is difficult to quickly compare the sports.\n\n\n\nFirst, we compared the total number of injuries sustained during competition in each sport. The numbers of injuries are reported as injuries per 10,000 competition plays.\n\n\n\n\n\nFigure 2\n\n\n\n\nAs you can see in the above graphic, the total number of recorded football injuries was over twice the number of any other sport in the surveyed population. This is not immediately apparent in the original figure. Grouping the injuries in a stacked bar chart better presents the sharp contrast between the total injuries sustained by football athletes compared to other high school sports.\n\n\n\nNext, let’s take a look at the number of injuries sustained by type, or by what body part was injured.\n\n\n\n\n\nFigure 3\n\n\n\n\nFootball leads nearly all of the injury categories in the surveyed population. The figure below allows you to more easily compare the injury categories by sport.\n\n\n\n\n\nFigure 4\n\n\n\n\n\n\n\nThe statistic that is most troubling to researchers and parents alike is the significant number of head injuries sustained by high school boys playing football. Head injuries are particularly dangerous for developing brains and, increasingly, head injuries have been linked to mental illness in teenage boys. (Bracken, Branch, Laffin, Lieberman, & Ward, 2023)\nThe total number of head injuries sustained by football players was nearly double that of hockey players, the sport that sustained the next most head injuries.\n\n\n\n\n\nFigure 5\n\n\n\n\n\n\n\n\n\n\nBelson, K., Bui, Q., Drape, J., Taylor, R., & Ward, J. (2019, November 7). On Defense: Inside Football’s Campaign to Save the Game. New York Times.\nBracken, K., Branch, J., Laffin, B., Lieberman, R., & Ward, J. (2023, November 16). C.T.E. Study Finds That Young Football Players Are Getting the Disease. New York Times."
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html#introduction",
+    "href": "NYT_HS_Sports_Injuries.html#introduction",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "In 2019 the New York Times published an article titled “Inside Football’s Campaign to Save the Game.” The article examined the sport’s culture and focused on the growing number of injuries among young players and the long term effects of these injuries. You can read the full article here.\nPictured below is one of the figures used to compare the number of injuries sustained by high school boys in six popular sports: football, hockey, wrestling, lacrosse, soccer, and basketball. (Belson, Bui, Drape, Taylor, & Ward, 2019)\n\n\n\n\n\n\n\nFigure 1\n\n\nThe figure offers an interesting comparison of the relative number of injuries, but without reading the numbers it is difficult to quickly compare the sports."
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html#total-injuries",
+    "href": "NYT_HS_Sports_Injuries.html#total-injuries",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "First, we compared the total number of injuries sustained during competition in each sport. The numbers of injuries are reported as injuries per 10,000 competition plays.\n\n\n\n\n\nFigure 2\n\n\n\n\nAs you can see in the above graphic, the total number of recorded football injuries was over twice the number of any other sport in the surveyed population. This is not immediately apparent in the original figure. Grouping the injuries in a stacked bar chart better presents the sharp contrast between the total injuries sustained by football athletes compared to other high school sports."
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html#injury-types",
+    "href": "NYT_HS_Sports_Injuries.html#injury-types",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "Next, let’s take a look at the number of injuries sustained by type, or by what body part was injured.\n\n\n\n\n\nFigure 3\n\n\n\n\nFootball leads nearly all of the injury categories in the surveyed population. The figure below allows you to more easily compare the injury categories by sport.\n\n\n\n\n\nFigure 4"
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html#head-injuries---a-growing-concern",
+    "href": "NYT_HS_Sports_Injuries.html#head-injuries---a-growing-concern",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "The statistic that is most troubling to researchers and parents alike is the significant number of head injuries sustained by high school boys playing football. Head injuries are particularly dangerous for developing brains and, increasingly, head injuries have been linked to mental illness in teenage boys. (Bracken, Branch, Laffin, Lieberman, & Ward, 2023)\nThe total number of head injuries sustained by football players was nearly double that of hockey players, the sport that sustained the next most head injuries.\n\n\n\n\n\nFigure 5"
+  },
+  {
+    "objectID": "NYT_HS_Sports_Injuries.html#references",
+    "href": "NYT_HS_Sports_Injuries.html#references",
+    "title": "New York Times: High School Sports Injuries",
+    "section": "",
+    "text": "Belson, K., Bui, Q., Drape, J., Taylor, R., & Ward, J. (2019, November 7). On Defense: Inside Football’s Campaign to Save the Game. New York Times.\nBracken, K., Branch, J., Laffin, B., Lieberman, R., & Ward, J. (2023, November 16). C.T.E. Study Finds That Young Football Players Are Getting the Disease. New York Times."
+  },
+  {
     "objectID": "R Codes.html",
     "href": "R Codes.html",
     "title": "R Code: New York Times High School Sports",
     "section": "",
-    "text": "#Entries represent injuries sustained per 10,000 competitions in the named sport\nfootball &lt;- c(34,21,3,5,11,7,18,3,19)\nhockey &lt;- c(18,13,2,2,5,8,3,1,5)\nwrestling &lt;- c(14,7,4,2,2,1,7,1,3)\nlacrosse &lt;- c(11,3,1,2,4,3,9,1,4)\nsoccer &lt;- c(11,1,1,2,2,5,5,2,6)\nbasketball &lt;- c(7,1,1,2,4,2,3,1,13)\n\nmat &lt;- cbind (football, hockey, wrestling, lacrosse, soccer, basketball)\ninjury &lt;- c(\"Head\",\"Shoulder\",\"Arm\",\"Trunk\",\"Hand\",\"Thigh\",\"Knee\",\"Lower Leg\",\"Ankle\")\nsport &lt;- c(\"Football\",\"Hockey\",\"Wrestling\",\"Lacrosse\",\"Soccer\",\"Basketball\")\ncolnames(mat) &lt;- sport\nrownames(mat) &lt;- injury\nmat\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball\nHead            34     18        14       11     11          7\nShoulder        21     13         7        3      1          1\nArm              3      2         4        1      1          1\nTrunk            5      2         2        2      2          2\nHand            11      5         2        4      2          4\nThigh            7      8         1        3      5          2\nKnee            18      3         7        9      5          3\nLower Leg        3      1         1        1      2          1\nAnkle           19      5         3        4      6         13\n\n\n\n\n\n\n#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL\n\n\n\n\n\n#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)\n\n\n\n\n\n#Subset head injuries\nsubset_head &lt;-subset(inj.sport.long, Injuries == \"Head\")\nsubset_head\n\n   Injuries      Sport Number\n1      Head   Football     34\n10     Head     Hockey     18\n19     Head  Wrestling     14\n28     Head   Lacrosse     11\n37     Head     Soccer     11\n46     Head Basketball      7"
+    "text": "#Entries represent injuries sustained per 10,000 competitions in the named sport\nfootball &lt;- c(34,21,3,5,11,7,18,3,19)\nhockey &lt;- c(18,13,2,2,5,8,3,1,5)\nwrestling &lt;- c(14,7,4,2,2,1,7,1,3)\nlacrosse &lt;- c(11,3,1,2,4,3,9,1,4)\nsoccer &lt;- c(11,1,1,2,2,5,5,2,6)\nbasketball &lt;- c(7,1,1,2,4,2,3,1,13)\n\nmat &lt;- cbind (football, hockey, wrestling, lacrosse, soccer, basketball)\ninjury &lt;- c(\"Head\",\"Shoulder\",\"Arm\",\"Trunk\",\"Hand\",\"Thigh\",\"Knee\",\"Lower Leg\",\"Ankle\")\nsport &lt;- c(\"Football\",\"Hockey\",\"Wrestling\",\"Lacrosse\",\"Soccer\",\"Basketball\")\ncolnames(mat) &lt;- sport\nrownames(mat) &lt;- injury\nmat\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball\nHead            34     18        14       11     11          7\nShoulder        21     13         7        3      1          1\nArm              3      2         4        1      1          1\nTrunk            5      2         2        2      2          2\nHand            11      5         2        4      2          4\nThigh            7      8         1        3      5          2\nKnee            18      3         7        9      5          3\nLower Leg        3      1         1        1      2          1\nAnkle           19      5         3        4      6         13\n\n\n\n\n\n\n#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL\ninj.sport\n\n  Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\n1       34     18        14       11     11          7      Head\n2       21     13         7        3      1          1  Shoulder\n3        3      2         4        1      1          1       Arm\n4        5      2         2        2      2          2     Trunk\n5       11      5         2        4      2          4      Hand\n6        7      8         1        3      5          2     Thigh\n7       18      3         7        9      5          3      Knee\n8        3      1         1        1      2          1 Lower Leg\n9       19      5         3        4      6         13     Ankle\n\n\n\n\n\n\n#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)\ninj.sport.long\n\n    Injuries      Sport Number\n1       Head   Football     34\n2   Shoulder   Football     21\n3        Arm   Football      3\n4      Trunk   Football      5\n5       Hand   Football     11\n6      Thigh   Football      7\n7       Knee   Football     18\n8  Lower Leg   Football      3\n9      Ankle   Football     19\n10      Head     Hockey     18\n11  Shoulder     Hockey     13\n12       Arm     Hockey      2\n13     Trunk     Hockey      2\n14      Hand     Hockey      5\n15     Thigh     Hockey      8\n16      Knee     Hockey      3\n17 Lower Leg     Hockey      1\n18     Ankle     Hockey      5\n19      Head  Wrestling     14\n20  Shoulder  Wrestling      7\n21       Arm  Wrestling      4\n22     Trunk  Wrestling      2\n23      Hand  Wrestling      2\n24     Thigh  Wrestling      1\n25      Knee  Wrestling      7\n26 Lower Leg  Wrestling      1\n27     Ankle  Wrestling      3\n28      Head   Lacrosse     11\n29  Shoulder   Lacrosse      3\n30       Arm   Lacrosse      1\n31     Trunk   Lacrosse      2\n32      Hand   Lacrosse      4\n33     Thigh   Lacrosse      3\n34      Knee   Lacrosse      9\n35 Lower Leg   Lacrosse      1\n36     Ankle   Lacrosse      4\n37      Head     Soccer     11\n38  Shoulder     Soccer      1\n39       Arm     Soccer      1\n40     Trunk     Soccer      2\n41      Hand     Soccer      2\n42     Thigh     Soccer      5\n43      Knee     Soccer      5\n44 Lower Leg     Soccer      2\n45     Ankle     Soccer      6\n46      Head Basketball      7\n47  Shoulder Basketball      1\n48       Arm Basketball      1\n49     Trunk Basketball      2\n50      Hand Basketball      4\n51     Thigh Basketball      2\n52      Knee Basketball      3\n53 Lower Leg Basketball      1\n54     Ankle Basketball     13\n\n\n\n\n\n\n#Subset head injuries\nsubset_head &lt;-subset(inj.sport.long, Injuries == \"Head\")\nsubset_head\n\n   Injuries      Sport Number\n1      Head   Football     34\n10     Head     Hockey     18\n19     Head  Wrestling     14\n28     Head   Lacrosse     11\n37     Head     Soccer     11\n46     Head Basketball      7"
   },
   {
     "objectID": "R Codes.html#building-a-matrix",
@@ -18,14 +165,14 @@
     "href": "R Codes.html#building-a-dataframe",
     "title": "R Code: New York Times High School Sports",
     "section": "",
-    "text": "#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL"
+    "text": "#Creating data frame and adding body location as a variable\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ninj.sport &lt;- as.data.frame(mat)\nbody &lt;-rownames(inj.sport)\ninj.sport$Injuries = factor(body, ordered = T, levels = rev(body))\ninj.sport\n\n          Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\nHead            34     18        14       11     11          7      Head\nShoulder        21     13         7        3      1          1  Shoulder\nArm              3      2         4        1      1          1       Arm\nTrunk            5      2         2        2      2          2     Trunk\nHand            11      5         2        4      2          4      Hand\nThigh            7      8         1        3      5          2     Thigh\nKnee            18      3         7        9      5          3      Knee\nLower Leg        3      1         1        1      2          1 Lower Leg\nAnkle           19      5         3        4      6         13     Ankle\n\nrownames(inj.sport) = NULL\ninj.sport\n\n  Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries\n1       34     18        14       11     11          7      Head\n2       21     13         7        3      1          1  Shoulder\n3        3      2         4        1      1          1       Arm\n4        5      2         2        2      2          2     Trunk\n5       11      5         2        4      2          4      Hand\n6        7      8         1        3      5          2     Thigh\n7       18      3         7        9      5          3      Knee\n8        3      1         1        1      2          1 Lower Leg\n9       19      5         3        4      6         13     Ankle"
   },
   {
     "objectID": "R Codes.html#gather-data-into-a-long-table",
     "href": "R Codes.html#gather-data-into-a-long-table",
     "title": "R Code: New York Times High School Sports",
     "section": "",
-    "text": "#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)"
+    "text": "#long pivot / gather data\ninj.sport.long &lt;- gather(inj.sport,key = Sport, value = Number, Football:Basketball, factor_key = T)\ninj.sport.long\n\n    Injuries      Sport Number\n1       Head   Football     34\n2   Shoulder   Football     21\n3        Arm   Football      3\n4      Trunk   Football      5\n5       Hand   Football     11\n6      Thigh   Football      7\n7       Knee   Football     18\n8  Lower Leg   Football      3\n9      Ankle   Football     19\n10      Head     Hockey     18\n11  Shoulder     Hockey     13\n12       Arm     Hockey      2\n13     Trunk     Hockey      2\n14      Hand     Hockey      5\n15     Thigh     Hockey      8\n16      Knee     Hockey      3\n17 Lower Leg     Hockey      1\n18     Ankle     Hockey      5\n19      Head  Wrestling     14\n20  Shoulder  Wrestling      7\n21       Arm  Wrestling      4\n22     Trunk  Wrestling      2\n23      Hand  Wrestling      2\n24     Thigh  Wrestling      1\n25      Knee  Wrestling      7\n26 Lower Leg  Wrestling      1\n27     Ankle  Wrestling      3\n28      Head   Lacrosse     11\n29  Shoulder   Lacrosse      3\n30       Arm   Lacrosse      1\n31     Trunk   Lacrosse      2\n32      Hand   Lacrosse      4\n33     Thigh   Lacrosse      3\n34      Knee   Lacrosse      9\n35 Lower Leg   Lacrosse      1\n36     Ankle   Lacrosse      4\n37      Head     Soccer     11\n38  Shoulder     Soccer      1\n39       Arm     Soccer      1\n40     Trunk     Soccer      2\n41      Hand     Soccer      2\n42     Thigh     Soccer      5\n43      Knee     Soccer      5\n44 Lower Leg     Soccer      2\n45     Ankle     Soccer      6\n46      Head Basketball      7\n47  Shoulder Basketball      1\n48       Arm Basketball      1\n49     Trunk Basketball      2\n50      Hand Basketball      4\n51     Thigh Basketball      2\n52      Knee Basketball      3\n53 Lower Leg Basketball      1\n54     Ankle Basketball     13"
   },
   {
     "objectID": "R Codes.html#creating-a-subset-dataframe-for-head-injuries",
@@ -53,14 +200,14 @@
     "href": "R Codes.html#facet-wrap",
     "title": "R Code: New York Times High School Sports",
     "section": "Facet Wrap",
-    "text": "Facet Wrap\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_wrap(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) + \n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))+\n  theme_minimal()"
+    "text": "Facet Wrap\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_wrap(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) +   theme_minimal()+\n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))"
   },
   {
     "objectID": "R Codes.html#facet-grid",
     "href": "R Codes.html#facet-grid",
     "title": "R Code: New York Times High School Sports",
     "section": "Facet Grid",
-    "text": "Facet Grid\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_grid(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) + \n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))+\n  theme_minimal()"
+    "text": "Facet Grid\n\nggplot(inj.sport.long, aes(x= Injuries,y=Number,fill = Sport,group = Sport)) +\n  geom_point(shape = 21, size = 2.8) + \n  geom_line(aes(color = Sport)) +\n  labs(x = \"Injuries per 10,000 Competition Plays\",y=\"\",title = \"High School Sports Injuries\")+\n  facet_grid(~Sport)+ scale_y_continuous(breaks=seq(0,50,by =10)) +   theme_minimal()+\n  theme(legend.position =\"none\")+\n  theme(axis.text.x = element_text(angle = 90))"
   },
   {
     "objectID": "R Codes.html#head-injuries",
@@ -68,54 +215,5 @@
     "title": "R Code: New York Times High School Sports",
     "section": "Head Injuries",
     "text": "Head Injuries\n\nggplot(subset_head,aes(x=Sport, y=Number))+\n  geom_col(aes(fill = Sport))+\n  geom_text(aes(label = Number),vjust = -0.5)+\n  labs(title = \"Head Injuries by Sport\",y = \"Number of Injuries per 10,000 Competition Plays\", x=\"\")+\n  theme_minimal()"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Group 3 Mid Project",
-    "section": "",
-    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "STAT 515 Section 001\nCory Trainor and Lana Hashem\n\n\n\nCory Trainor"
-  },
-  {
-    "objectID": "NYT_HS_Sports_Injuries.html",
-    "href": "NYT_HS_Sports_Injuries.html",
-    "title": "New York Times: High School Sports Injuries",
-    "section": "",
-    "text": "In 2019 the New York Times published an article titled “Inside Football’s Campaign to Save the Game.” The article examined the sport’s culture and focused on the growing number of injuries among young players and the long term effects of these injuries. You can read the full article here.\nPictured below is one of the figures used to compare the number of injuries sustained by high school boys in six popular sports: football, hockey, wrestling, lacrosse, soccer, and basketball.\n\n\n\n\n\nThe figure offers an interesting comparison of the relative number of injuries, but without reading the numbers it is difficult to quickly compare the sports.\n\n\n\nFirst, we compared the total number of injuries sustained during competition in each sport. The numbers of injuries are reported as injuries per 10,000 competition plays.\n\n\n\n\n\n\n\n\n\nAs you can see in the above graphic, the total number of recorded football injuries was over twice the number of any other sport in the surveyed population.\n\n\n\nNext, let’s take a look at the number of injuries sustained by type, or by what body part was injured.\n\n\n\n\n\n\n\n\n\nFootball leads nearly all of the injury categories in the surveyed population. The figure below allows you to more easily compare the injury categories by sport.\n\n\n\n\n\n\n\n\n\n\n\n\nThe statistic that is most troubling to researchers and parents alike is the significant number of head injuries sustained by high school boys playing football. Head injuries are particularly dangerous for developing brains and, increasingly, head injuries have been linked to mental illness in teenage boys."
-  },
-  {
-    "objectID": "NYT_HS_Sports_Injuries.html#introduction",
-    "href": "NYT_HS_Sports_Injuries.html#introduction",
-    "title": "New York Times: High School Sports Injuries",
-    "section": "",
-    "text": "In 2019 the New York Times published an article titled “Inside Football’s Campaign to Save the Game.” The article examined the sport’s culture and focused on the growing number of injuries among young players and the long term effects of these injuries. You can read the full article here.\nPictured below is one of the figures used to compare the number of injuries sustained by high school boys in six popular sports: football, hockey, wrestling, lacrosse, soccer, and basketball.\n\n\n\n\n\nThe figure offers an interesting comparison of the relative number of injuries, but without reading the numbers it is difficult to quickly compare the sports."
-  },
-  {
-    "objectID": "NYT_HS_Sports_Injuries.html#total-injuries",
-    "href": "NYT_HS_Sports_Injuries.html#total-injuries",
-    "title": "New York Times: High School Sports Injuries",
-    "section": "",
-    "text": "First, we compared the total number of injuries sustained during competition in each sport. The numbers of injuries are reported as injuries per 10,000 competition plays.\n\n\n\n\n\n\n\n\n\nAs you can see in the above graphic, the total number of recorded football injuries was over twice the number of any other sport in the surveyed population."
-  },
-  {
-    "objectID": "NYT_HS_Sports_Injuries.html#injury-types",
-    "href": "NYT_HS_Sports_Injuries.html#injury-types",
-    "title": "New York Times: High School Sports Injuries",
-    "section": "",
-    "text": "Next, let’s take a look at the number of injuries sustained by type, or by what body part was injured.\n\n\n\n\n\n\n\n\n\nFootball leads nearly all of the injury categories in the surveyed population. The figure below allows you to more easily compare the injury categories by sport."
-  },
-  {
-    "objectID": "NYT_HS_Sports_Injuries.html#head-injuries---a-growing-concern",
-    "href": "NYT_HS_Sports_Injuries.html#head-injuries---a-growing-concern",
-    "title": "New York Times: High School Sports Injuries",
-    "section": "",
-    "text": "The statistic that is most troubling to researchers and parents alike is the significant number of head injuries sustained by high school boys playing football. Head injuries are particularly dangerous for developing brains and, increasingly, head injuries have been linked to mental illness in teenage boys."
   }
 ]

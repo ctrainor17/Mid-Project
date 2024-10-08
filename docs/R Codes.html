@@ -134,6 +134,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link active" href="./R Codes.html" aria-current="page"> 
 <span class="menu-text">R Code: New York Times High School Sports</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Pay_gap.html"> 
+<span class="menu-text">Washington Post: Employment Rate Based on Race and Gender</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./R_code_Employment_Post.html"> 
+<span class="menu-text">R Code: The Washington Post Employment Examination</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -256,22 +264,93 @@ Knee            18      3         7        9      5          3      Knee
 Lower Leg        3      1         1        1      2          1 Lower Leg
 Ankle           19      5         3        4      6         13     Ankle</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(inj.sport) <span class="ot">=</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(inj.sport) <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>inj.sport</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Football Hockey Wrestling Lacrosse Soccer Basketball  Injuries
+1       34     18        14       11     11          7      Head
+2       21     13         7        3      1          1  Shoulder
+3        3      2         4        1      1          1       Arm
+4        5      2         2        2      2          2     Trunk
+5       11      5         2        4      2          4      Hand
+6        7      8         1        3      5          2     Thigh
+7       18      3         7        9      5          3      Knee
+8        3      1         1        1      2          1 Lower Leg
+9       19      5         3        4      6         13     Ankle</code></pre>
+</div>
 </div>
 </section>
 <section id="gather-data-into-a-long-table" class="level2">
 <h2 class="anchored" data-anchor-id="gather-data-into-a-long-table">Gather Data into a Long Table</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#long pivot / gather data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>inj.sport.long <span class="ot">&lt;-</span> <span class="fu">gather</span>(inj.sport,<span class="at">key =</span> Sport, <span class="at">value =</span> Number, Football<span class="sc">:</span>Basketball, <span class="at">factor_key =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#long pivot / gather data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>inj.sport.long <span class="ot">&lt;-</span> <span class="fu">gather</span>(inj.sport,<span class="at">key =</span> Sport, <span class="at">value =</span> Number, Football<span class="sc">:</span>Basketball, <span class="at">factor_key =</span> T)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>inj.sport.long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Injuries      Sport Number
+1       Head   Football     34
+2   Shoulder   Football     21
+3        Arm   Football      3
+4      Trunk   Football      5
+5       Hand   Football     11
+6      Thigh   Football      7
+7       Knee   Football     18
+8  Lower Leg   Football      3
+9      Ankle   Football     19
+10      Head     Hockey     18
+11  Shoulder     Hockey     13
+12       Arm     Hockey      2
+13     Trunk     Hockey      2
+14      Hand     Hockey      5
+15     Thigh     Hockey      8
+16      Knee     Hockey      3
+17 Lower Leg     Hockey      1
+18     Ankle     Hockey      5
+19      Head  Wrestling     14
+20  Shoulder  Wrestling      7
+21       Arm  Wrestling      4
+22     Trunk  Wrestling      2
+23      Hand  Wrestling      2
+24     Thigh  Wrestling      1
+25      Knee  Wrestling      7
+26 Lower Leg  Wrestling      1
+27     Ankle  Wrestling      3
+28      Head   Lacrosse     11
+29  Shoulder   Lacrosse      3
+30       Arm   Lacrosse      1
+31     Trunk   Lacrosse      2
+32      Hand   Lacrosse      4
+33     Thigh   Lacrosse      3
+34      Knee   Lacrosse      9
+35 Lower Leg   Lacrosse      1
+36     Ankle   Lacrosse      4
+37      Head     Soccer     11
+38  Shoulder     Soccer      1
+39       Arm     Soccer      1
+40     Trunk     Soccer      2
+41      Hand     Soccer      2
+42     Thigh     Soccer      5
+43      Knee     Soccer      5
+44 Lower Leg     Soccer      2
+45     Ankle     Soccer      6
+46      Head Basketball      7
+47  Shoulder Basketball      1
+48       Arm Basketball      1
+49     Trunk Basketball      2
+50      Hand Basketball      4
+51     Thigh Basketball      2
+52      Knee Basketball      3
+53 Lower Leg Basketball      1
+54     Ankle Basketball     13</code></pre>
+</div>
 </div>
 </section>
 <section id="creating-a-subset-dataframe-for-head-injuries" class="level2">
 <h2 class="anchored" data-anchor-id="creating-a-subset-dataframe-for-head-injuries">Creating a subset Dataframe for Head Injuries</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Subset head injuries</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>subset_head <span class="ot">&lt;-</span><span class="fu">subset</span>(inj.sport.long, Injuries <span class="sc">==</span> <span class="st">"Head"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>subset_head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Subset head injuries</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>subset_head <span class="ot">&lt;-</span><span class="fu">subset</span>(inj.sport.long, Injuries <span class="sc">==</span> <span class="st">"Head"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>subset_head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Injuries      Sport Number
 1      Head   Football     34
@@ -289,9 +368,9 @@ Ankle           19      5         3        4      6         13     Ankle</code><
 <section id="stacked-bar" class="level2">
 <h2 class="anchored" data-anchor-id="stacked-bar">Stacked Bar</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span>Sport, <span class="at">y =</span> Number, <span class="at">fill =</span> Injuries))<span class="sc">+</span><span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Injuries per 10,000 Competition Plays"</span>, <span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>, <span class="at">fill =</span> <span class="st">"Injury Type"</span>)<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span>Sport, <span class="at">y =</span> Number, <span class="at">fill =</span> Injuries))<span class="sc">+</span><span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Injuries per 10,000 Competition Plays"</span>, <span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>, <span class="at">fill =</span> <span class="st">"Injury Type"</span>)<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -304,12 +383,12 @@ Ankle           19      5         3        4      6         13     Ankle</code><
 <section id="line-plot" class="level2">
 <h2 class="anchored" data-anchor-id="line-plot">Line Plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Line Plot</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">x=</span><span class="st">"Type of Injury"</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>, <span class="at">fill=</span> <span class="st">"Sport"</span>)<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Line Plot</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">x=</span><span class="st">"Type of Injury"</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>, <span class="at">fill=</span> <span class="st">"Sport"</span>)<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -322,14 +401,13 @@ Ankle           19      5         3        4      6         13     Ankle</code><
 <section id="facet-wrap" class="level2">
 <h2 class="anchored" data-anchor-id="facet-wrap">Facet Wrap</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">y=</span><span class="st">""</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>)<span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Sport)<span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="at">by =</span><span class="dv">10</span>)) <span class="sc">+</span> </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))<span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">y=</span><span class="st">""</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>)<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Sport)<span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="at">by =</span><span class="dv">10</span>)) <span class="sc">+</span>   <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -342,14 +420,13 @@ Ankle           19      5         3        4      6         13     Ankle</code><
 <section id="facet-grid" class="level2">
 <h2 class="anchored" data-anchor-id="facet-grid">Facet Grid</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">y=</span><span class="st">""</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>)<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Sport)<span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="at">by =</span><span class="dv">10</span>)) <span class="sc">+</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))<span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inj.sport.long, <span class="fu">aes</span>(<span class="at">x=</span> Injuries,<span class="at">y=</span>Number,<span class="at">fill =</span> Sport,<span class="at">group =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Sport)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Injuries per 10,000 Competition Plays"</span>,<span class="at">y=</span><span class="st">""</span>,<span class="at">title =</span> <span class="st">"High School Sports Injuries"</span>)<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Sport)<span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="at">by =</span><span class="dv">10</span>)) <span class="sc">+</span>   <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -362,11 +439,11 @@ Ankle           19      5         3        4      6         13     Ankle</code><
 <section id="head-injuries" class="level2">
 <h2 class="anchored" data-anchor-id="head-injuries">Head Injuries</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subset_head,<span class="fu">aes</span>(<span class="at">x=</span>Sport, <span class="at">y=</span>Number))<span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Sport))<span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Number),<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Head Injuries by Sport"</span>,<span class="at">y =</span> <span class="st">"Number of Injuries per 10,000 Competition Plays"</span>, <span class="at">x=</span><span class="st">""</span>)<span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subset_head,<span class="fu">aes</span>(<span class="at">x=</span>Sport, <span class="at">y=</span>Number))<span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Sport))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Number),<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Head Injuries by Sport"</span>,<span class="at">y =</span> <span class="st">"Number of Injuries per 10,000 Competition Plays"</span>, <span class="at">x=</span><span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
