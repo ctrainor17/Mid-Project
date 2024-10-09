@@ -91,6 +91,13 @@
     "text": "In this project, we explored how to enhance visualizations by choosing which variables to work with. For instance, we created a line graph instead of the bar graph provided by the original study to examine the difference in employment rates by the Washington Post. The line graph in this case is a better choice of visualization as it showcases the different categories of employment (hourly and salaried) and clarifies the comparison between the total number of employees across different races. Moreover, a stacked bar was a good visualization choice to examine the difference in employment rates as it showcases the different numbers of employees within each race of employees in the Post Office."
   },
   {
+    "objectID": "Pay_gap.html#references",
+    "href": "Pay_gap.html#references",
+    "title": "Washington Post: Employment Rate Based on Race and Gender",
+    "section": "",
+    "text": "Members of the Washington Post Guild. (2019, July 2). A STUDY OF PAY AT THE WASHINGTON POST. Retrieved from The Washington Post Guild: https://postguild.org/2019-pay-study/"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Group 3 Mid Project",
@@ -222,12 +229,5 @@
     "title": "R Code: New York Times High School Sports",
     "section": "Head Injuries",
     "text": "Head Injuries\n\nggplot(subset_head,aes(x=Sport, y=Number))+\n  geom_col(aes(fill = Sport))+\n  geom_text(aes(label = Number),vjust = -0.5)+\n  labs(title = \"Head Injuries by Sport\",y = \"Number of Injuries per 10,000 Competition Plays\", x=\"\")+\n  theme_minimal()"
-  },
-  {
-    "objectID": "Pay_gap.html#references",
-    "href": "Pay_gap.html#references",
-    "title": "Washington Post: Employment Rate Based on Race and Gender",
-    "section": "",
-    "text": "Members of the Washington Post Guild. (2019, July 2). A STUDY OF PAY AT THE WASHINGTON POST. Retrieved from The Washington Post Guild: https://postguild.org/2019-pay-study/"
   }
 ]
